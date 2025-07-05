@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.library.system.controller.MainController">
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <MenuBar HBox.hgrow="ALWAYS">
+            <menus>
+                <Menu text="文件">
+                    <items>
+                        <MenuItem onAction="#handleExit" text="退出" />
+                    </items>
+                </Menu>
+<!--                <Menu fx:id="menuManage" text="管理">-->
+<!--                    <items>-->
+<!--                        <MenuItem fx:id="menuItemManageBooks" onAction="#handleManageBooks" text="图书管理" />-->
+<!--                        <MenuItem fx:id="menuItemManageUsers" onAction="#handleManageUsers" text="用户管理" />-->
+<!--                    </items>-->
+<!--                </Menu>-->
+<!--                <Menu fx:id="menuBorrow" text="借阅">-->
+<!--                    <items>-->
+<!--                        <MenuItem fx:id="menuItemBorrowBook" onAction="#handleBorrowBooks" text="借阅图书" />-->
+<!--                        <MenuItem fx:id="menuItemReturnBook" onAction="#handleReturnBooks" text="归还图书" />-->
+<!--                        <MenuItem fx:id="menuItemViewRecords" onAction="#handleViewBorrowed" text="查看借阅记录" />-->
+<!--                    </items>-->
+<!--                </Menu>-->
+                <Menu text="帮助">
+                    <items>
+                        <MenuItem onAction="#handleAbout" text="关于" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10" />
+                </padding>
+                <ImageView fx:id="imgUserAvatar" fitWidth="50" fitHeight="50" style="-fx-border-radius: 20; -fx-background-radius: 20;" />
+                <Label fx:id="lblUsername" style="-fx-text-fill: #333333; -fx-font-size: 12px;" />
+            </HBox>
+        </HBox>
+    </top>
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab closable="false" text="欢迎">
+                    <content>
+                        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20" style="-fx-background-image: url('/statics/bg.jpg'); -fx-background-size: cover; -fx-background-color: rgba(0,0,0,0.3);">
+                            <Text text="欢迎使用图书管理系统" style="-fx-fill: white; -fx-effect: dropshadow(three-pass-box, black, 10, 0.5, 0, 0);">
+                                <font>
+                                    <Font name="Arial" size="24.0" />
+                                </font>
+                            </Text>
+                            <Label fx:id="lblWelcome" text="欢迎，用户" style="-fx-text-fill: #FFFACD; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0.5, 0, 0);">
+                                <font>
+                                    <Font name="Arial" size="20.0" />
+                                </font>
+                            </Label>
+<!--                            <HBox alignment="CENTER" spacing="40">-->
+<!--                                <Button fx:id="btnManageBooks" onAction="#handleManageBooks" text="图书管理" visible="true" />-->
+<!--                                <Button fx:id="btnManageUsers" onAction="#handleManageUsers" text="用户管理" visible="true" />-->
+<!--                                <Button fx:id="btnBorrowBook" onAction="#handleBorrowBooks" text="借阅图书" visible="true" />-->
+<!--                                <Button fx:id="btnReturnBook" onAction="#handleReturnBooks" text="归还图书" visible="true" />-->
+<!--                            </HBox>-->
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab fx:id="tabBooks" closable="false" text="图书列表">
+                    <content>
+                        <VBox prefHeight="400.0" prefWidth="600.0" spacing="10">
+                            <HBox alignment="CENTER" spacing="10">
+                                <TextField fx:id="txtSearchBook" promptText="搜索图书..." />
+                                <Button onAction="#handleSearchBooks" text="搜索" />
+                                <Button onAction="#handleResetSearch" text="重置" />
+                                <Button fx:id="btnAddBook" onAction="#handleAddBook" text="添加图书" visible="true" />
+                                <Button fx:id="btnEditBook" onAction="#handleEditBook" text="编辑图书" visible="true" />
+                                <Button fx:id="btnDeleteBook" onAction="#handleDeleteBook" text="删除图书" visible="true" />
+                                <Button fx:id="btnBorrow" onAction="#handleBorrowBooks" text="借阅图书" visible="false" />
+                                <Button fx:id="btnReturn" onAction="#handleReturnBooks" text="归还图书" visible="false" />
+                                <Button fx:id="btnView" onAction="#handleViewBorrowed" text="查看借阅记录" visible="false" />
+                            </HBox>
+                            <TableView fx:id="tableViewBooks" prefHeight="350.0" prefWidth="600.0">
+                                <columns>
+                                    <TableColumn fx:id="colId" text="ID" />
+                                    <TableColumn fx:id="colImage" prefWidth="120" text="图片" />
+                                    <TableColumn fx:id="colTitle" text="书名" />
+                                    <TableColumn fx:id="colAuthor" text="作者" />
+                                    <TableColumn fx:id="colIsbn" text="ISBN" />
+                                    <TableColumn fx:id="colCategory" text="分类" />
+                                    <TableColumn fx:id="colPublishDate" text="出版日期" />
+                                    <TableColumn fx:id="colAvailable" text="状态" />
+                                    <TableColumn fx:id="colBorrower" text="借阅人" />
+                                </columns>
+                            </TableView>
+                            <!-- 在TableView下方添加分页控件 -->
+                            <HBox alignment="CENTER" spacing="10">
+                                    <Button fx:id="btnPrevious" onAction="#handlePreviousPage" text="上一页" />
+                                    <Label fx:id="lblPageInfo" />
+                                    <Button fx:id="btnNext" onAction="#handleNextPage" text="下一页" />
+                                    <Label text="每页显示:"/>
+                                    <ChoiceBox fx:id="bookPageSizeChoice" onAction="#handleBookPageSizeChange" value="10">
+                                        <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                                <String fx:value="10" />
+                                                <String fx:value="20"/>
+                                                <String fx:value="50"/>
+                                            </FXCollections>
+                                        </items>
+                                    </ChoiceBox>
+                                </HBox>
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab fx:id="tabUsers" text="人员记录" closable="false">
+                    <content>
+                        <VBox spacing="10" prefHeight="400.0" prefWidth="600.0">
+                            <HBox alignment="CENTER" spacing="10">
+                                <TextField fx:id="txtSearchUser" promptText="输入用户名或姓名搜索..." />
+                                <Button fx:id="searchUserButton" text="搜索" onAction="#handleSearchUsers"/>
+                                <Button onAction="#handleUserResetSearch" text="重置" />
+                                <Button fx:id="addUserButton" text="新增" onAction="#handleAddUser"/>
+                                <Button fx:id="editUserButton" text="编辑" onAction="#handleEditUser"/>
+                                <Button fx:id="deleteUserButton" text="删除" onAction="#handleDeleteUser"/>
+                            </HBox>
+                            <TableView fx:id="userTable" prefHeight="350.0" prefWidth="600.0">
+                                <columns>
+                                    <TableColumn fx:id="userIdColumn" text="ID" prefWidth="50"/>
+                                    <TableColumn fx:id="usernameColumn" text="用户名" prefWidth="100"/>
+                                    <TableColumn fx:id="fullNameColumn" text="姓名" prefWidth="100"/>
+                                    <TableColumn fx:id="emailColumn" text="邮箱" prefWidth="150"/>
+                                    <TableColumn fx:id="roleColumn" text="角色" prefWidth="80"/>
+                                    <TableColumn fx:id="statusColumn" text="状态" prefWidth="80"/>
+                                </columns>
+                                <placeholder>
+                                    <Label text="没有找到用户记录"/>
+                                </placeholder>
+                            </TableView>
+                            <!-- 分页控件 -->
+                            <HBox alignment="CENTER" spacing="10">
+                                <Button fx:id="prevUserPageButton" text="上一页" onAction="#handlePrevUserPage"/>
+                                <Label fx:id="userPageInfoLabel" text="第 1 页 / 共 0 页"/>
+                                <Button fx:id="nextUserPageButton" text="下一页" onAction="#handleNextUserPage"/>
+                                    <Label text="每页显示:"/>
+                                    <ChoiceBox fx:id="userPageSizeChoice" onAction="#handleUserPageSizeChange" value="10">
+                                        <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                                <String fx:value="10"  />
+                                                <String fx:value="20"/>
+                                                <String fx:value="50"/>
+                                            </FXCollections>
+                                        </items>
+                                    </ChoiceBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab fx:id="tabBorrowRecords" text="借阅记录" closable="false">
+                    <content>
+                        <VBox spacing="10" prefHeight="400.0" prefWidth="600.0">
+                            <HBox alignment="CENTER" spacing="10">
+                                <TextField fx:id="txtSearchRecord" promptText="输入借阅人或者图书标题搜索.." />
+                                <Button onAction="#handleSearchBorrowRecords" text="搜索" />
+                                <Button onAction="#handleResetBorrowSearch" text="重置" />
+                                <Button fx:id="btnRefreshRecords" text="刷新记录" onAction="#loadBorrowRecords" />
+                            </HBox>
+                            <TableView fx:id="tableViewBorrowRecords" prefHeight="350.0" prefWidth="600.0">
+                                <columns>
+                                    <TableColumn fx:id="borrowRecordIdColumn" text="ID" prefWidth="50" />
+                                    <TableColumn fx:id="borrowRecordBookTitleColumn" text="图书标题" prefWidth="150" />
+                                    <TableColumn fx:id="borrowRecordUserNameColumn" text="借阅人" prefWidth="100" />
+                                    <TableColumn fx:id="borrowRecordBorrowDateColumn" text="借阅日期" prefWidth="120" />
+                                    <TableColumn fx:id="borrowRecordDueDateColumn" text="应还日期" prefWidth="120" />
+                                    <TableColumn fx:id="borrowRecordReturnDateColumn" text="归还日期" prefWidth="120" />
+                                    <TableColumn fx:id="borrowRecordStatusColumn" text="状态" prefWidth="80" />
+                                </columns>
+                            </TableView>
+                            <!-- 分页控件 -->
+                            <HBox alignment="CENTER" spacing="10">
+                                <Button fx:id="prevBorrowPageButton" text="上一页" onAction="#handlePreviousBorrowPage" />
+                                <Label fx:id="borrowPageInfoLabel" text="第 1 页 / 共 0 页" />
+                                <Button fx:id="nextBorrowPageButton" text="下一页" onAction="#handleNextBorrowPage" />
+                                    <Label text="每页显示:"/>
+                                    <ChoiceBox fx:id="borrowPageSizeChoice" onAction="#handleBorrowPageSizeChange" value="10">
+                                        <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                                <String fx:value="10" />
+                                                <String fx:value="20"/>
+                                                <String fx:value="50"/>
+                                            </FXCollections>
+                                        </items>
+                                    </ChoiceBox>
+                                </HBox>
+                        </VBox>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+    <bottom>
+        <Label alignment="CENTER" text="© 2025 图书管理系统" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+    </bottom>
+</BorderPane>
