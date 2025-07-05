@@ -4,37 +4,46 @@ USE library_db;
 
 -- 创建用户表
 CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    role VARCHAR(20) NOT NULL
+  id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `role` varchar(20) NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1',
+  `avatar_path` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
 );
 
 -- 创建图书表
 CREATE TABLE IF NOT EXISTS books (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    author VARCHAR(100) NOT NULL,
-    isbn VARCHAR(20) NOT NULL UNIQUE,
-    category VARCHAR(50) NOT NULL,
-    publish_date DATE NOT NULL,
-    available BOOLEAN NOT NULL DEFAULT TRUE,
-    image_path VARCHAR(255)
-);
+    `id` int NOT NULL AUTO_INCREMENT,
+    `title` varchar(100) NOT NULL,
+    `author` varchar(100) NOT NULL,
+    `isbn` varchar(20) NOT NULL,
+    `category` varchar(50) NOT NULL,
+    `publish_date` date NOT NULL,
+    `available` tinyint(1) NOT NULL DEFAULT '1',
+    `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `isbn` (`isbn`)
+    );
 
 -- 创建借阅记录表
 CREATE TABLE IF NOT EXISTS borrow_records (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    book_id INT NOT NULL,
-    user_id INT NOT NULL,
-    borrow_date DATE NOT NULL,
-    return_date DATE,
-    returned BOOLEAN NOT NULL DEFAULT FALSE,
-    FOREIGN KEY (book_id) REFERENCES books(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
+  `id` int NOT NULL AUTO_INCREMENT,
+  `book_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `borrow_date` date NOT NULL,
+  `return_date` date DEFAULT NULL,
+  `returned` tinyint(1) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    KEY `book_id` (`book_id`),
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `borrow_records_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
+    CONSTRAINT `borrow_records_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+    );
 
 -- 插入初始用户数据
 INSERT INTO users (username, password, full_name, email, role) VALUES
